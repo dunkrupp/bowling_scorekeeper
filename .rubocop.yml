@@ -1,0 +1,17 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+  - rubocop-performance
+
+AllCops:
+  NewCops: enable
+Style/Documentation:
+  Enabled: false
+Style/EndOfLine:
+  EnforcedStyle: lf
+Layout/EndOfLine:
+  EnforcedStyle: lf
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_first_argument
+Style/SymbolArray:
+  EnforcedStyle: brackets

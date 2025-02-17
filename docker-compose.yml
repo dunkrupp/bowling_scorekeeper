@@ -1,0 +1,15 @@
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: sqlite3:///app/db/development.sqlite3
+  db:
+    image: busybox
+    volumes:
+      - ./tmp/db:/app/db
