@@ -1,14 +1,12 @@
-require:
+plugins:
   - rubocop-rails
-  - rubocop-rspec
   - rubocop-performance
 
 AllCops:
   NewCops: enable
+  SuggestExtensions: false
 Style/Documentation:
   Enabled: false
-Style/EndOfLine:
-  EnforcedStyle: lf
 Layout/EndOfLine:
   EnforcedStyle: lf
 Layout/ArgumentAlignment:
