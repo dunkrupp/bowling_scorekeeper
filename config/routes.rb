@@ -1,14 +1,14 @@
-Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+# frozen_string_literal: true
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
+Rails.application.routes.draw do
+  get 'up' => "rails/health#show", as: :rails_health_check
+
+  root to: 'rails/health#show'
 
   namespace :api do
     namespace :v1 do
       resources :games, only: [:create] do
-        post :roll, on::member
+        post :roll, on: :member
       end
     end
   end
