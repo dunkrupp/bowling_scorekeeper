@@ -1,6 +1,8 @@
 source "https://rubygems.org"
 
 gem "active_model_serializers"
+gem "dry-monads"
+gem "dry-schema"
 gem "puma", ">= 5.0"
 gem "rails", "~> 8.0.1"
 gem "rack-cors"
