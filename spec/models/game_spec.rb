@@ -11,7 +11,7 @@ RSpec.describe Game, type: :model do
 
     it 'destroys frames when the game is destroyed' do
       game = Game.create
-      expect { game.destroy }.to change(Frame,:count).by(-10)
+      expect { game.destroy }.to change(Frame, :count).by(-10)
     end
   end
 
@@ -53,7 +53,7 @@ RSpec.describe Game, type: :model do
 
     context 'when all frames are completed' do
       before do
-        game.frames.where(type: 'Frame').each { |frame| frame.update!(completed: true) }
+        game.frames.where(type: 'Frame').find_each { |frame| frame.update!(completed: true) }
       end
 
       it 'returns the last frame' do
