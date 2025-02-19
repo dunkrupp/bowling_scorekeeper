@@ -13,3 +13,5 @@ Layout/ArgumentAlignment:
   EnforcedStyle: with_first_argument
 Style/SymbolArray:
   EnforcedStyle: brackets
+Rails/DeprecatedActiveModelErrorsMethods:
+  Enabled: false

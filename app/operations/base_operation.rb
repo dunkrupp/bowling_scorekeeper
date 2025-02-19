@@ -5,8 +5,6 @@ class BaseOperation
 
   private
 
-  DEFAULT_NIL = -> {}
-
   # Logs the message to +Rails.logger+ and returns +Failure(message)+
   #
   # @param [String|Symbol] message

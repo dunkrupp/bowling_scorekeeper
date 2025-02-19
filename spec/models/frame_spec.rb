@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe Frame, type: :model do
   game =  Game.build
   frame = Frame.build(completed: false, frame_number: 1, game:, score: 0)
@@ -67,7 +68,6 @@ RSpec.describe Frame, type: :model do
     it 'validates the number of rolls' do
       3.times { frame.rolls << Roll.build(pins: (1..10).to_a.sample) }
       expect(frame).not_to be_valid
-      pp frame.errors
       expect(frame.errors[:frames]).to include('cannot have more than 2 rolls')
     end
   end
@@ -82,3 +82,4 @@ RSpec.describe Frame, type: :model do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

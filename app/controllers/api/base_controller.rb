@@ -3,7 +3,7 @@
 module Api
   # Base controller for API endpoints.
   # Provides common methods and configurations for API controllers.
-  class BaseController <::ApplicationController
+  class BaseController < ::ApplicationController
     include ::Dry::Monads::Result::Mixin
 
     private
@@ -12,7 +12,7 @@ module Api
     #
     # @param errors [Hash] The error message to include in the response.
     # @return [void]
-    def bad_request(errors = Hash[:status, 'Bad Request'])
+    def bad_request(errors = { status: 'Bad Request' })
       render json: { errors: }, status: :bad_request
     end
 
@@ -28,7 +28,7 @@ module Api
     #
     # @param errors [Any] The error message to include in the response.
     # @return [void]
-    def not_found(errors = Hash[:status, 'Not Found'])
+    def not_found(errors = { status: 'Not Found' })
       render json: { errors: }, status: :not_found
     end
   end

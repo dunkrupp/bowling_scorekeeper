@@ -3,8 +3,6 @@
 module Api
   module V1
     class GamesController < ::Api::BaseController
-      attr_reader :game
-
       before_action :game_exists?, only: [:roll]
       before_action :validate_params, only: [:roll]
 
@@ -31,7 +29,7 @@ module Api
       end
 
       def game_exists?
-        not_found unless game.present?
+        not_found if game.blank?
       end
 
       def pins

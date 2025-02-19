@@ -81,14 +81,16 @@ module Rolls
       Success(current_frame.reload)
     end
 
-    # If any previous strikes or spares require a carry_over_score
+    # If any previous strikes or spares require a carry_over_rolls
     # to be applied still, it will be.
     def update_frames_with_carry_over_score
       frames_with_carry_over = game.frames.carry_overable.where.not(id: current_frame.id)
 
       frames_with_carry_over.each do |f|
-        f.update!(score: f.score + numerical_pin_value)
-        f.decrement!(:carry_over_rolls)
+        f.update!(
+          score: f.score + numerical_pin_value,
+          carry_over_rolls: f.carry_over_rolls - 1
+        )
       end
 
       Success()

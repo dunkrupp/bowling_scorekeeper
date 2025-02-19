@@ -2,15 +2,16 @@
 
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe Rolls::Record do
   let(:game) { Game.create! }
 
   describe '#call' do
     context 'with valid input' do
       it 'creates a new roll with the correct pin value' do
-        expect {
+        expect do
           described_class.new.call(game:, pins: 'X')
-        }.to change(Roll,:count).by(1)
+        end.to change(Roll, :count).by(1)
         expect(Roll.last.pins).to eq(10)
       end
 
@@ -28,9 +29,9 @@ RSpec.describe Rolls::Record do
       end
 
       it 'handles strikes correctly' do
-        expect {
+        expect do
           described_class.new.call(game:, pins: 'X')
-        }.to change(Roll,:count).by(1)
+        end.to change(Roll, :count).by(1)
         expect(Roll.last.pins).to eq(10)
         frame = game.frames.first
         expect(frame.score).to eq(10)
@@ -48,9 +49,9 @@ RSpec.describe Rolls::Record do
       end
 
       it 'handles misses correctly' do
-        expect {
+        expect do
           described_class.new.call(game:, pins: '-')
-        }.to change(Roll,:count).by(1)
+        end.to change(Roll, :count).by(1)
         expect(Roll.last.pins).to eq(0)
       end
 
@@ -93,3 +94,4 @@ RSpec.describe Rolls::Record do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
