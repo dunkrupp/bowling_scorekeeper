@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe RollContract do
   describe '#call' do
     game = Game.create!
@@ -53,3 +54,4 @@ RSpec.describe RollContract do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

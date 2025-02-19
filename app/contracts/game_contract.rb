@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class GameContract  < Dry::Validation::Contract
+class GameContract < Dry::Validation::Contract
   params do
     required(:game).filled
   end

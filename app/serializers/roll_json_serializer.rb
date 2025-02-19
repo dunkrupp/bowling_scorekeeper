@@ -8,12 +8,11 @@ class RollJsonSerializer < ActiveModel::Serializer
   attributes :id, :pins
 
   def pins
-    case
-    when object.strike?
+    if object.strike?
       PINS[:STRIKE]
-    when object.miss?
+    elsif object.miss?
       PINS[:MISS]
-    when object.spare?
+    elsif object.spare?
       PINS[:SPARE]
     else
       object.pins.to_s

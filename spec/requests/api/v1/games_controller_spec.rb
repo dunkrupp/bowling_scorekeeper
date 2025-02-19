@@ -1,12 +1,14 @@
-# spec/requests/api/v1/games_controller_spec.rb
+# frozen_string_literal: true
+
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe Api::V1::GamesController, type: :request do
-  let(:json) { JSON.parse(response.body) }
+  let(:json) { response.parsed_body }
 
   describe 'POST #create' do
     it 'creates a new game' do
-      expect { post api_v1_games_url }.to change(Game,:count).by(1)
+      expect { post api_v1_games_url }.to change(Game, :count).by(1)
 
       expect(response).to have_http_status(:created)
       expect(response.content_type).to eq('application/json; charset=utf-8')
@@ -18,9 +20,9 @@ RSpec.describe Api::V1::GamesController, type: :request do
 
     context 'with valid params' do
       it 'records a roll and updates the game state' do
-        expect {
+        expect do
           post roll_api_v1_game_url(game), params: { pins: '5' }
-        }.to change(Roll,:count).by(1)
+        end.to change(Roll, :count).by(1)
 
         expect(response).to have_http_status(:created)
         expect(response.content_type).to eq('application/json; charset=utf-8')
@@ -52,3 +54,4 @@ RSpec.describe Api::V1::GamesController, type: :request do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

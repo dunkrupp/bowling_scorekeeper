@@ -5,9 +5,9 @@ class Roll < ApplicationRecord
   MIN_PINS_PER_ROLL = 0
 
   PIN_CHARACTERS = {
-    :STRIKE => 'X',
-    :SPARE => '/',
-    :MISS => '-'
+    STRIKE: 'X',
+    SPARE: '/',
+    MISS: '-'
   }.freeze
 
   ACCEPTABLE_PIN_CHARACTERS = PIN_CHARACTERS.values.freeze

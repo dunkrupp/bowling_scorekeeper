@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe Roll do
   describe 'associations' do
     it 'belongs to a frame' do
@@ -24,7 +25,7 @@ RSpec.describe Roll do
 
   describe 'constants' do
     it 'defines PIN_CHARACTERS correctly' do
-      expect(Roll::PIN_CHARACTERS).to eq({ :STRIKE => 'X', :SPARE => '/', :MISS => '-' })
+      expect(Roll::PIN_CHARACTERS).to eq({ STRIKE: 'X', SPARE: '/', MISS: '-' })
     end
 
     it 'defines ACCEPTABLE_PIN_CHARACTERS correctly' do
@@ -36,7 +37,8 @@ RSpec.describe Roll do
     end
 
     it 'defines ACCEPTABLE_PIN_VALUES correctly' do
-      expect(Roll::ACCEPTABLE_PIN_VALUES).to eq( %w[0 1 2 3 4 5 6 7 8 9 10 X / -])
+      expect(Roll::ACCEPTABLE_PIN_VALUES).to eq(%w[0 1 2 3 4 5 6 7 8 9 10 X / -])
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
