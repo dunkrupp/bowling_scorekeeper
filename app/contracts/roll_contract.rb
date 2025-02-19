@@ -13,12 +13,12 @@ class RollContract < Dry::Validation::Contract
     key.failure('must be a valid symbol (X, /, -) or a number between 0 and 10') unless acceptable_pin?(value)
 
     if value == PIN[:SPARE]
-      key.failure('cannot be a spare on the first roll') if game.current_frame.rolls.empty?
+      key.failure('cannot be a spare on the first roll') if rolls.empty?
     elsif value.upcase == PIN[:STRIKE]
-      key.failure('cannot be a strike on the second roll') if game.current_frame.rolls.any?
+      key.failure('cannot be a strike on the second roll') if invalid_strike_entry?
     end
 
-    key.failure("cannot exceed the frame score limit of #{Roll::MAX_PINS_PER_ROLL}") if invalid_frame_score?(value)
+    key.failure("cannot exceed the frame score limit of #{Frame::MAX_SCORE_PER_FRAME}") if invalid_frame_score?(value)
   end
 
   private
@@ -27,11 +27,23 @@ class RollContract < Dry::Validation::Contract
     Roll::ACCEPTABLE_PIN_VALUES.include?(value)
   end
 
-  # @todo: this could be reworked
-  def invalid_frame_score?(value)
-    non_character = PIN.values.exclude?(value)
-    exceeds_score_limit = value.to_i + game.current_frame.score > Roll::MAX_PINS_PER_ROLL
+  def current_frame
+    @current_frame ||= game.current_frame
+  end
 
-    non_character && exceeds_score_limit
+  def invalid_frame_score?(value)
+    return false if PIN.value?(value)
+
+    return true if value.to_i + current_frame.roll_sum > Roll::MAX_PINS_PER_ROLL && !current_frame.final_frame?
+
+    false
+  end
+
+  def invalid_strike_entry?
+    rolls.any? && !current_frame.final_frame?
+  end
+
+  def rolls
+    @rolls ||= current_frame.rolls
   end
 end

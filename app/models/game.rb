@@ -10,7 +10,7 @@ class Game < ApplicationRecord
   has_many :frames, dependent: :destroy
 
   def current_frame
-    frames.incomplete.first
+    frames.incomplete.first || frames.last
   end
 
   def incomplete?

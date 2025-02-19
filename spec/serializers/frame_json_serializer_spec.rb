@@ -12,7 +12,7 @@ RSpec.describe FrameJsonSerializer, type: :serializer do
   end
 
   it 'serializes the score correctly' do
-    expect(json[:score]).to eq(10)
+    expect(json[:score]).to eq('') # empty because of carry_over_rolls
   end
 
   it 'serializes the completed correctly' do
