@@ -41,9 +41,7 @@ module Api
       end
 
       def validate_params
-        if game.completed?
-          render json: game, serializer:
-        end
+        render(json: game, serializer:) if game.completed?
 
         result = RollContract.new(game:).call(pins: pins)
         bad_request(result.errors.to_h) if result.failure?

@@ -32,11 +32,9 @@ class RollContract < Dry::Validation::Contract
   end
 
   def invalid_frame_score?(value)
-    return false if PIN.values.include?(value)
+    return false if PIN.value?(value)
 
-    if value.to_i + current_frame.roll_sum > Roll::MAX_PINS_PER_ROLL
-      return true unless current_frame.final_frame?
-    end
+    return true if value.to_i + current_frame.roll_sum > Roll::MAX_PINS_PER_ROLL && !current_frame.final_frame?
 
     false
   end
