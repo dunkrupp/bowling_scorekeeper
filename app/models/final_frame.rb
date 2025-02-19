@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
 class FinalFrame < Frame
-  MAX_ROLLS_PER_FRAME = 3
-
-  attribute :frame_number, :integer, default: 10
-
-  private
+  attribute :frame_number, :integer, default: MAX_FRAME_NUMBER
 
   def max_roll_count
     3

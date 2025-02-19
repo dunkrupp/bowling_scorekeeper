@@ -24,6 +24,7 @@ class Frame < ApplicationRecord
   scope :completed, -> { where(completed: true) }
   scope :incomplete, -> { where(completed: false) }
   scope :final_frame, -> { where(type: TYPES[:FinalFrame]) }
+  scope :carry_overable, -> { where.not(carry_over_rolls: 0) }
 
   validate :validate_roll_count
   validates :frame_number, :score, :type,
@@ -39,15 +40,11 @@ class Frame < ApplicationRecord
     message: "must be between #{MIN_SCORE_PER_FRAME} and #{MAX_SCORE_PER_FRAME}"
   }
 
-  def mark_as_completed?
-    self.rolls.count == max_roll_count
-  end
-
-  private
-
   def max_roll_count
     2
   end
+
+  private
 
   def validate_roll_count
     errors.add(:frames, "cannot have more than #{max_roll_count} rolls") if rolls.size > max_roll_count
