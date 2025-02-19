@@ -2,10 +2,19 @@
 
 class Game < ApplicationRecord
   after_create :create_frames
+
+  attribute :completed, :boolean, default: false
+  attribute :created_at, :datetime
+  attribute :updated_at, :datetime
+
   has_many :frames, dependent: :destroy
 
   def current_frame
     frames.incomplete.first
+  end
+
+  def incomplete?
+    !completed?
   end
 
   private

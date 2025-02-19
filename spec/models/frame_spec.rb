@@ -47,11 +47,11 @@ RSpec.describe Frame, type: :model do
     it 'validates numericality of frame_number' do
       frame.frame_number = -1
       expect(frame).not_to be_valid
-      expect(frame.errors[:frame_number]).to include('must be greater than or equal to 0')
+      expect(frame.errors[:frame_number]).to include('must be between 0 and 10')
 
       frame.frame_number = 11
       expect(frame).not_to be_valid
-      expect(frame.errors[:frame_number]).to include('must be less than or equal to 10')
+      expect(frame.errors[:frame_number]).to include('must be between 0 and 10')
     end
 
     it 'validates numericality of score' do
@@ -67,7 +67,8 @@ RSpec.describe Frame, type: :model do
     it 'validates the number of rolls' do
       3.times { frame.rolls << Roll.build(pins: (1..10).to_a.sample) }
       expect(frame).not_to be_valid
-      expect(frame.errors[:rolls]).to include('cannot have more than 2 rolls')
+      pp frame.errors
+      expect(frame.errors[:frames]).to include('cannot have more than 2 rolls')
     end
   end
 

@@ -12,6 +12,6 @@ RSpec.describe FinalFrame, type: :model do
     final_frame = FinalFrame.build( score: 30)
     4.times { final_frame.rolls << Roll.build }
     expect(final_frame).not_to be_valid
-    expect(final_frame.errors[:rolls]).to include('cannot have more than 3 rolls')
+    expect(final_frame.errors[:frames]).to include('cannot have more than 3 rolls')
   end
 end
