@@ -11,6 +11,7 @@ class Frame < ApplicationRecord
     FinalFrame: 'FinalFrame'
   }.freeze
 
+  attribute :carry_over_rolls, default: 0
   attribute :completed, :boolean, default: false
   attribute :created_at, :datetime
   attribute :frame_number, :integer
@@ -40,8 +41,20 @@ class Frame < ApplicationRecord
     message: "must be between #{MIN_SCORE_PER_FRAME} and #{MAX_SCORE_PER_FRAME}"
   }
 
+  def final_frame?
+    false
+  end
+
   def max_roll_count
     2
+  end
+
+  def roll_count
+    rolls.count
+  end
+
+  def roll_sum
+    rolls.sum(:pins)
   end
 
   private

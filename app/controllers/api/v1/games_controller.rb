@@ -16,7 +16,7 @@ module Api
       end
 
       def roll
-        result = Rolls::Record.new.call(game: game, pins: pins)
+        result = Rolls::RecordEtAl.new.call(game: game, pins: pins)
         return bad_request(result.failure) unless result.success?
 
         created(result.value!)
@@ -41,8 +41,9 @@ module Api
       end
 
       def validate_params
-        result = GameContract.new.call(game:)
-        return bad_request(result.errors.to_h) if result.failure?
+        if game.completed?
+          render json: game, serializer:
+        end
 
         result = RollContract.new(game:).call(pins: pins)
         bad_request(result.errors.to_h) if result.failure?

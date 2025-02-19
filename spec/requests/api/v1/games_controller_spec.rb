@@ -44,12 +44,11 @@ RSpec.describe Api::V1::GamesController, type: :request do
         expect(response).to have_http_status(:not_found)
       end
 
-      it 'returns an error response for a game that is over' do
+      it 'returns the game object when a game is over' do
         game.update!(completed: true)
         post roll_api_v1_game_url(game), params: { pins: '5' }
-        expect(response).to have_http_status(:bad_request)
+        expect(response).to have_http_status(:ok)
         expect(response.content_type).to eq('application/json; charset=utf-8')
-        expect(json['errors']['game']).to include('game over man! game over!!')
       end
     end
   end

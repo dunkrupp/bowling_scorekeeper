@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 # rubocop:disable Metrics/BlockLength
-RSpec.describe Rolls::Record do
+RSpec.describe Rolls::RecordEtAl do
   let(:game) { Game.create! }
 
   describe '#call' do
