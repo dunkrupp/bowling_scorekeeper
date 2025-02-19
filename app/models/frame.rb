@@ -12,16 +12,17 @@ class Frame < ApplicationRecord
   }.freeze
 
   attribute :completed, :boolean, default: false
+  attribute :created_at, :datetime
   attribute :frame_number, :integer
   attribute :score, :integer, default: 0
   attribute :type, :string, default: -> { TYPES[:Frame] }
+  attribute :updated_at, :datetime
 
   belongs_to :game
   has_many :rolls, dependent: :destroy, validate: true
 
   scope :completed, -> { where(completed: true) }
   scope :incomplete, -> { where(completed: false) }
-
   scope :final_frame, -> { where(type: TYPES[:FinalFrame]) }
 
   validate :validate_roll_count
@@ -29,13 +30,18 @@ class Frame < ApplicationRecord
             presence: true
   validates :frame_number, numericality: {
     greater_than_or_equal_to: MIN_FRAME_NUMBER,
-    less_than_or_equal_to: MAX_FRAME_NUMBER
+    less_than_or_equal_to: MAX_FRAME_NUMBER,
+    message: "must be between #{MIN_FRAME_NUMBER} and #{MAX_FRAME_NUMBER}"
   }
   validates :score, numericality: {
     greater_than_or_equal_to: MIN_SCORE_PER_FRAME,
     less_than_or_equal_to: MAX_SCORE_PER_FRAME,
-    message: 'Score must be between 0 and 30'
+    message: "must be between #{MIN_SCORE_PER_FRAME} and #{MAX_SCORE_PER_FRAME}"
   }
+
+  def mark_as_completed?
+    self.rolls.count == max_roll_count
+  end
 
   private
 
@@ -44,6 +50,6 @@ class Frame < ApplicationRecord
   end
 
   def validate_roll_count
-    errors.add(:rolls, "cannot have more than #{max_roll_count} rolls") if rolls.size > max_roll_count
+    errors.add(:frames, "cannot have more than #{max_roll_count} rolls") if rolls.size > max_roll_count
   end
 end
