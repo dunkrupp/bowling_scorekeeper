@@ -48,6 +48,15 @@ RSpec.describe Rolls::RecordEtAl do
         expect(frame.carry_over_rolls).to eq(1)
       end
 
+      it 'handles spares correctly' do
+        described_class.new.call(game:, pins: '5')
+        described_class.new.call(game:, pins: '5')
+        frame = game.frames.first
+        expect(frame.score).to eq(10)
+        expect(frame.completed).to be_truthy
+        expect(frame.carry_over_rolls).to eq(1)
+      end
+
       it 'handles misses correctly' do
         expect do
           described_class.new.call(game:, pins: '-')
@@ -90,6 +99,27 @@ RSpec.describe Rolls::RecordEtAl do
         expect(result).to be_failure
         expect(result.failure).to be_a(Symbol)
         expect(result.failure).to eq(:internal_server_error)
+      end
+    end
+
+    context 'running a full game' do
+      let(:parameters) do
+        [
+          'X', '7', '/', 9, '-', 'X', '-', 8, 8, '/', '-', 6, 'X', 'X', 'X', 8
+        ]
+      end
+
+      before do
+        parameters.each do |parameter|
+          described_class.new.call(game: game, pins: parameter.to_s)
+        end
+      end
+
+      it 'ends' do
+        result = described_class.new.call(game: game, pins: '1')
+        expect(result).to be_success
+        expect(result.value!.completed).to eq(true)
+        expect(result.value!.frames.sum(&:score)).to eq(167)
       end
     end
   end

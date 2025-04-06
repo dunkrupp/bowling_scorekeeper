@@ -18,7 +18,10 @@ class RollContract < Dry::Validation::Contract
       key.failure('cannot be a strike on the second roll') if invalid_strike_entry?
     end
 
-    key.failure("cannot exceed the frame score limit of #{Frame::MAX_SCORE_PER_FRAME}") if invalid_frame_score?(value)
+    key.failure("cannot exceed the frame score limit of #{Frame::MAX_FRAME_NUMBER}") if invalid_frame_score?(value)
+    if invalid_final_frame_score?(value)
+      key.failure("cannot exceed the final frame score limit of #{Frame::MAX_SCORE_PER_FRAME}")
+    end
   end
 
   private
@@ -37,6 +40,10 @@ class RollContract < Dry::Validation::Contract
     return true if value.to_i + current_frame.roll_sum > Roll::MAX_PINS_PER_ROLL && !current_frame.final_frame?
 
     false
+  end
+
+  def invalid_final_frame_score?(value)
+    current_frame.final_frame? && value.to_i + current_frame.roll_sum < Frame::MAX_FRAME_NUMBER
   end
 
   def invalid_strike_entry?

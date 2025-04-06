@@ -52,6 +52,26 @@ RSpec.describe RollContract do
         end
       end
     end
+
+    describe '#invalid_frame_score?' do
+      let(:game) { Game.create! }
+      let(:frame) { Frame.create!(game:) }
+      let(:roll) { Roll.create!(frame:, pins: '1') }
+
+      context 'with a valid score' do
+        it 'returns successfully' do
+          expect(described_class.new(game:).call({ pins: '1' })).to be_success
+        end
+      end
+    end
+
+    describe '#invalid_final_frame_score?' do
+      context 'with a valid score' do
+        it 'returns successfully' do
+          # games done
+        end
+      end
+    end
   end
 end
 # rubocop:enable Metrics/BlockLength
