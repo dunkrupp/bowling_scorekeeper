@@ -35,7 +35,7 @@ module Rolls
 
       if pins == PIN[:STRIKE]
         return 2
-      elsif pins == PIN[:SPARE]
+      elsif pins == PIN[:SPARE] || current_frame.rolls.sum(&:pins) == MAX_SCORE
         return 1
       end
 
